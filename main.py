@@ -6,7 +6,7 @@ import cv2
 cap = cv2.VideoCapture('number.mp4')
 detector = SarioDetector('models/sario-best.pt')
 fps = cap.get(cv2.CAP_PROP_FPS)
-start_time_in_seconds = 35
+start_time_in_seconds = 30
 
 start_frame_number = int(start_time_in_seconds * fps)
 cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame_number)
@@ -25,10 +25,10 @@ while cap.isOpened():
             timestamp = extract_timestamp(frame)
             
             print("Found Sario with number " + sarionum + " on " + timestamp)
-            
-                           
+                                          
     else:
         # If no frame could be read (e.g. end of video), break the loop
         break
 
 cap.release()
+cv2.destroyAllWindows()

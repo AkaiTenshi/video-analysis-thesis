@@ -80,6 +80,7 @@ def extract_sarionum(frame):
     sharp = cv2.filter2D(closed, -1, kernel)
     
     data = pytesseract.image_to_string(sharp, lang='eng', config='--psm 10', output_type=Output.DICT)
+
     
     return data['text']
        
