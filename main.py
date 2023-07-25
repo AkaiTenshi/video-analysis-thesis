@@ -1,13 +1,13 @@
-from ocr import extract_sarionum, extract_timestamp
+from ocr import extract_timestamp
 from sario import SarioDetector
 import cv2
+import googlevision as gv
 
-
-# Open the video file
+# Open the video file and set the starting frame number close to a Sario (35 for num55 120 for num90)
 cap = cv2.VideoCapture("number.mp4")
 detector = SarioDetector("models/sario-best.pt")
 fps = cap.get(cv2.CAP_PROP_FPS)
-start_time_in_seconds = 115
+start_time_in_seconds = 120
 
 start_frame_number = int(start_time_in_seconds * fps)
 cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame_number)
@@ -22,16 +22,13 @@ while cap.isOpened():
         roi = detector.extract_roi(frame, results)
 
         if roi.any():
-            sarionum = extract_sarionum(roi)
+            sarionum = gv.detect_text_from_image(roi)
             timestamp = extract_timestamp(frame)
 
             print("Found Sario with number " + sarionum + " on " + timestamp)
-        # cv2.imshow("Frame", frame)
-        # cv2.waitKey(1)
 
     else:
         # If no frame could be read (e.g. end of video), break the loop
         break
 
 cap.release()
-cv2.destroyAllWindows()
