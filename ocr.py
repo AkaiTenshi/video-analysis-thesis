@@ -25,8 +25,8 @@ def img_preprocess_sario(frame):
     # Convert to grayscale
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    # Perform adaptive histogram equalization
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    # Perform adaptive histogram equalization to enchance contrast
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 4))
     img = clahe.apply(img)
 
     # Convert to binary using adaptive threshold to keep as much of the number as possible
@@ -34,13 +34,6 @@ def img_preprocess_sario(frame):
         img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 21, 8
     )
 
-    # Use a 5x5 Ellipse to apply morphological closing to remove noise
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
-    img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
-    
-    # Apply Gaussian Blur to remove noise and pixelation
-    img = cv2.GaussianBlur(img, (3, 3), 0)
-    
     # Invert the image to have black foreground and white background
     img = cv2.bitwise_not(img)
 
@@ -107,7 +100,7 @@ def extract_sarionum(frame):
     # Run preprocessing pipeline on the image
     img = img_preprocess_sario(frame)
 
-    # We use psm 10 (single character of text) oem 1 (LTSM Algo) and a whitelist of numbers
+    # We use psm 10 (single character of text) oem 1 (LSTM Algo) and a whitelist of numbers
     data = pytesseract.image_to_string(
         img,
         lang="eng",
@@ -115,7 +108,7 @@ def extract_sarionum(frame):
         output_type=Output.DICT,
     )
 
-    #cv2.imshow("Image", img)
-    #cv2.waitKey(1)
+    cv2.imshow("Image", img)
+    cv2.waitKey(1)
 
     return data["text"]
