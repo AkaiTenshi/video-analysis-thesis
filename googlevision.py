@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 from google.cloud import vision
 
+
 def detect_text_from_image(image):
     img = image.copy()
-    
     # Normalize channels to (0,255)
     norm = np.zeros((img.shape[0], img.shape[1]))
     img = cv2.normalize(img, norm, 0, 255, cv2.NORM_MINMAX)
@@ -18,13 +18,15 @@ def detect_text_from_image(image):
     # Perform adaptive histogram equalization to enchance contrast
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 4))
     img = clahe.apply(img)
-    
+
     # Convert the image to bytes
     is_success, im_buf_arr = cv2.imencode(".jpg", image)
     byte_im = im_buf_arr.tobytes()
 
     # Create a new client for vision
-    client = vision.ImageAnnotatorClient.from_service_account_json('api-key.json')
+    client = vision.ImageAnnotatorClient.from_service_account_json(
+        "api-key.json"
+        )
 
     # Create a new image object
     image = vision.Image(content=byte_im)

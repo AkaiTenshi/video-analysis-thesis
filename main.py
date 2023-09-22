@@ -1,9 +1,12 @@
+import cv2
+
+import googlevision as gv
 from ocr import extract_timestamp
 from sario import SarioDetector
-import cv2
-import googlevision as gv
 
-# Open the video file and set the starting frame number close to a Sario (35 for num55 120 for num90)
+# Open the video file and
+# set the starting frame number close to a Sario
+# (35 for num55 120 for num90)
 cap = cv2.VideoCapture("number.mp4")
 detector = SarioDetector("models/sario-best.pt")
 fps = cap.get(cv2.CAP_PROP_FPS)

@@ -21,7 +21,8 @@ class SarioDetector:
                 # Convert tensor to numpy
                 box = box.numpy()
 
-                # Add an extra ndim to make array 2D in case only one sario is found
+                # Add an extra ndim to make array 2D
+                # in case only one sario is found
                 if box.ndim == 1:
                     box = box[np.newaxis, :]
 

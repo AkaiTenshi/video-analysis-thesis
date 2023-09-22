@@ -1,8 +1,9 @@
+import subprocess
+
 import cv2
+import numpy as np
 import pytesseract
 from pytesseract import Output
-import numpy as np
-import subprocess
 
 
 def img_preprocess_sario(frame):
@@ -28,8 +29,8 @@ def img_preprocess_sario(frame):
     # Perform adaptive histogram equalization to enchance contrast
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 4))
     img = clahe.apply(img)
-
-    # Convert to binary using adaptive threshold to keep as much of the number as possible
+    # Convert to binary using adaptive threshold
+    # to keep as much of the number as possible
     img = cv2.adaptiveThreshold(
         img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 21, 8
     )
@@ -69,7 +70,8 @@ def extract_timestamp(frame):
     # Crop the image to the ROI
     roi = frame[start_y:end_y, start_x:end_x]
 
-    # Create a mask for pixels with green value above 200 and red/blue below 100
+    # Create a mask for pixels with green value
+    # above 200 and red/blue below 100
     mask = (roi[:, :, 1] > 200) & (roi[:, :, 0] < 100) & (roi[:, :, 2] < 100)
 
     # Apply the mask to the ROI
@@ -100,7 +102,9 @@ def extract_sarionum(frame):
     # Run preprocessing pipeline on the image
     img = img_preprocess_sario(frame)
 
-    # We use psm 10 (single character of text) oem 1 (LSTM Algo) and a whitelist of numbers
+    # We use psm 10 (single character of text)
+    # oem 1 (LSTM Algo)
+    # and a whitelist of numbers
     data = pytesseract.image_to_string(
         img,
         lang="eng",
