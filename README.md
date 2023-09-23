@@ -71,14 +71,18 @@ Code coverage settings are in `.coveragerc`.
 To run the main application:
 
 ```shell
-python src/sarioreader
+python src/sarioreader "path/to/video"
 ```
 
 Or using poetry:
 
 ```shell
-poetry run python sarioreader
+poetry run python sarioreader "path/to/video"
 ```
+
+The app will process the video frame by frame. It will first be passed by the Object Detector and if anything is returned it will be send to the OCR model. The output will be a list of text that was found in the ROI returned by the Object Detector. The ROI is passed through an image pre-processing algorithm provided by the clearvision package that performs histogram equalization for better text clarity.
+
+The app also includes a preview of each ROI as it gets executed. The code runs fast enough to process the video near real-time.
 
 ### Object Detection
 
