@@ -1,10 +1,11 @@
-import cv2
-import pytesseract
-from pytesseract import Output
-import numpy as np
 import subprocess
-from clearvision.ocr import OCR
+
+import cv2
+import numpy as np
+import pytesseract
 from clearvision.imageproc.toolkit import adjust_contrast_brightness
+from clearvision.ocr import OCR
+from pytesseract import Output
 
 
 class srOCR:
@@ -20,8 +21,7 @@ class srOCR:
             subprocess.run(
                 ["tesseract", "--version"],
                 check=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
             )
         except (subprocess.CalledProcessError, FileNotFoundError):
             # If Tesseract couldn't be run, raise an exception
@@ -42,8 +42,10 @@ class srOCR:
         # Crop the image to the ROI
         roi = frame[start_y:end_y, start_x:end_x]
 
-        # Create a mask for pixels with green value above 200 and red/blue below 100
-        mask = (roi[:, :, 1] > 200) & (roi[:, :, 0] < 100) & (roi[:, :, 2] < 100)
+        # Create a mask for pixels with green
+        mask = (
+            (roi[:, :, 1] > 200) & (roi[:, :, 0] < 100) & (roi[:, :, 2] < 100)
+        )
 
         # Apply the mask to the ROI
         roi = cv2.bitwise_and(roi, roi, mask=mask.astype(np.uint8) * 255)
@@ -94,7 +96,9 @@ class srOCR:
         data = self.ocr_agent.perform_ocr(frame)
 
         if data is not None:
-            raw_sarionum = [result["text"] for result in data.get("ocr_result", [])]
+            raw_sarionum = [
+                result["text"] for result in data.get("ocr_result", [])
+            ]
             return self._sanitize_sarionum(raw_sarionum)
         else:
             print("Could not find OCR data")

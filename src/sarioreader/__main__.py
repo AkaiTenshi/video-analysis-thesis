@@ -1,12 +1,16 @@
-from sarioreader import ocr, detector, logger
 import logging
+
 import cv2
+
+from sarioreader import detector, logger, ocr
 
 
 def main():
     logger.setLevel(logging.INFO)
 
-    cap = cv2.VideoCapture("/home/chmaikos/HUA/video-analysis-thesis/number.mp4")
+    cap = cv2.VideoCapture(
+        "/home/chmaikos/HUA/video-analysis-thesis/number.mp4"
+    )
     fps = cap.get(cv2.CAP_PROP_FPS)
     start_time_in_seconds = 220
 
@@ -26,7 +30,7 @@ def main():
                 timestamp = ocr.extract_timestamp(frame)
 
                 logger.info(
-                    f"Found Sario with numbers {' '.join(map(str, sarionum))} on {timestamp}"
+                    f"Found Sario with numbers {' '.join(map(str, sarionum))} on {timestamp}"  # noqa: E501
                 )
                 cv2.imshow("View", roi)
 

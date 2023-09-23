@@ -1,5 +1,5 @@
-from ultralytics import YOLO
 import numpy as np
+from ultralytics import YOLO
 
 
 class SarioDetector:
@@ -21,7 +21,7 @@ class SarioDetector:
                 # Convert tensor to numpy
                 box = box.numpy()
 
-                # Add an extra ndim to make array 2D in case only one sario is found
+                # Add an extra ndim to make array 2D
                 if box.ndim == 1:
                     box = box[np.newaxis, :]
 

@@ -17,7 +17,9 @@ file_handler = RotatingFileHandler(
 )  # 1 MB file size limit, keep last 3 logs
 stream_handler = logging.StreamHandler()
 
-formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+formatter = logging.Formatter(
+    "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+)
 file_handler.setFormatter(formatter)
 stream_handler.setFormatter(formatter)
 
