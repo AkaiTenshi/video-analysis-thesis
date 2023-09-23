@@ -1,25 +1,17 @@
 import logging
 import os
-import sys
+from importlib.metadata import PackageNotFoundError, version
+from logging.handlers import RotatingFileHandler
 
 from sarioreader.ocr import srOCR
 from sarioreader.sario import SarioDetector
 
-if sys.version_info[:2] >= (3, 8):
-    # TODO: Import directly (no need for conditional) when `python_requires = >= 3.8`
-    from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
-else:
-    from importlib_metadata import PackageNotFoundError, version  # pragma: no cover
-
-# Create and configure your custom logger
-from logging.handlers import RotatingFileHandler
-
-# Create and configure your custom logger
+# Create and configure custom logger
 logger = logging.getLogger("sarioreader")
 logger.setLevel(logging.INFO)
-logger.propagate = False  # Prevents log messages from being passed to the root logger
+logger.propagate = False  # Prevents log messages from being passed
 
-# Add handlers to your custom logger
+# Add handlers to custom logger
 file_handler = RotatingFileHandler(
     "sarioreader.log", maxBytes=1e6, backupCount=3
 )  # 1 MB file size limit, keep last 3 logs
@@ -39,7 +31,6 @@ model_path = os.path.join(current_dir, "models/sario-best.pt")
 detector = SarioDetector(model_path)
 
 try:
-    # Change here if project is renamed and does not equal the package name
     dist_name = "sarioreader"
     __version__ = version(dist_name)
 except PackageNotFoundError:  # pragma: no cover
