@@ -3,8 +3,9 @@ name = "sarioreader"
 version = "0.1.0"
 description = "An AI/ML assisted tool to analyze video of industrial enviroments and recognize objects with number plates. Part of my Thesis Work."
 authors = ["Chris Maikos <chmaikos@gmail.com>"]
-license = "MIT"
+license = "GPL-3.0-only"
 readme = "README.md"
+repository = "https://github.com/chmaikos/video-analysis-thesis"
 
 [tool.poetry.dependencies]
 python = ">=3.8.1,<3.10"
