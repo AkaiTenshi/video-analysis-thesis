@@ -1,16 +1,20 @@
+import argparse
 import logging
+import os
 
 import cv2
 
 from sarioreader import detector, logger, ocr
 
 
-def main():
+def main(video_path):
     logger.setLevel(logging.INFO)
 
-    cap = cv2.VideoCapture(
-        "/home/chmaikos/HUA/video-analysis-thesis/number.mp4"
-    )
+    if not os.path.exists(video_path):
+        logger.error(f"Video file {video_path} does not exist.")
+        return
+
+    cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS)
     start_time_in_seconds = 220
 
@@ -20,7 +24,6 @@ def main():
         ret, frame = cap.read()
 
         if ret:
-            # Use the detector to find objects
             results = detector.detect_sario(frame)
             roi = detector.extract_roi(frame, results)
 
@@ -34,11 +37,9 @@ def main():
                 )
                 cv2.imshow("View", roi)
 
-                # Wait for 1 ms, break the loop if 'q' is pressed
                 if cv2.waitKey(1) & 0xFF == ord("q"):
                     break
         else:
-            # If no frame could be read (e.g. end of video), break the loop
             break
 
     cap.release()
@@ -46,4 +47,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Process video file.")
+    parser.add_argument("video_path", type=str, help="Path to the video file")
+
+    args = parser.parse_args()
+    main(args.video_path)
