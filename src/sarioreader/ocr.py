@@ -10,7 +10,11 @@ from pytesseract import Output
 
 class srOCR:
     def __init__(self):
-        self.ocr_agent = OCR(scale_factor=2)
+        self.ocr_agent = OCR(
+            scale_factor=2,
+            # recognizer_weights="/home/chmaikos/HUA/video-analysis-thesis/src/sarioreader/models/recognizer_svhn.h5",  # noqa: E501
+            # alphabet=string.digits,
+        )
 
     def img_preprocess_sario(self, frame):
         return adjust_contrast_brightness(frame, "clahe")
@@ -79,7 +83,7 @@ class srOCR:
             "i": "1",
             "s": "5",
             "z": "2",
-            "g": "6",
+            "g": "9",
         }
 
         for text in text_list:

@@ -11,9 +11,18 @@ logger = logging.getLogger("sarioreader")
 logger.setLevel(logging.INFO)
 logger.propagate = False  # Prevents log messages from being passed
 
+# Get the path to the HOME directory
+home_directory = os.path.expanduser("~")
+folder_path = os.path.join(home_directory, ".sarioreader")
+
+# Check if the folder exists
+if not os.path.exists(folder_path):
+    os.makedirs(folder_path)
+log_path = os.path.join(folder_path, "sarioreader.log")
+
 # Add handlers to custom logger
 file_handler = RotatingFileHandler(
-    "sarioreader.log", maxBytes=1e6, backupCount=3
+    log_path, maxBytes=1e6, backupCount=3
 )  # 1 MB file size limit, keep last 3 logs
 stream_handler = logging.StreamHandler()
 

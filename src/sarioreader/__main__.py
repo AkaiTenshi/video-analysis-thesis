@@ -15,11 +15,16 @@ def main(video_path):
         return
 
     cap = cv2.VideoCapture(video_path)
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    start_time_in_seconds = 220
+    # Desired time in seconds
+    desired_time_seconds = 40  # Adjust this to your desired time
 
-    start_frame_number = int(start_time_in_seconds * fps)
-    cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame_number)
+    # Calculate the frame number corresponding to the desired time
+    frame_rate = int(cap.get(cv2.CAP_PROP_FPS))
+    desired_frame = int(desired_time_seconds * frame_rate)
+
+    # Set the video's position to the desired frame
+    cap.set(cv2.CAP_PROP_POS_FRAMES, desired_frame)
+
     while cap.isOpened():
         ret, frame = cap.read()
 
@@ -31,14 +36,13 @@ def main(video_path):
                 roi = ocr.img_preprocess_sario(roi)
                 sarionum = ocr.extract_sarionum(roi)
                 timestamp = ocr.extract_timestamp(frame)
+                cv2.imshow("Debug", roi)
+                cv2.waitKey(1)
 
-                logger.info(
-                    f"Found Sario with numbers {' '.join(map(str, sarionum))} on {timestamp}"  # noqa: E501
-                )
-                cv2.imshow("View", roi)
-
-                if cv2.waitKey(1) & 0xFF == ord("q"):
-                    break
+                if sarionum:
+                    logger.info(
+                        f"Found Sario with numbers {' '.join(map(str, sarionum))} on {timestamp}"  # noqa: E501
+                    )
         else:
             break
 

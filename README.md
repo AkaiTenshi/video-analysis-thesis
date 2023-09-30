@@ -40,7 +40,7 @@ Here are the major dependencies of the project:
 
 | Dependency    | Version   | Description                               |
 | ------------- | --------- | ----------------------------------------- |
-| clearvision   | ^0.2.0    | Image processing toolkit                  |
+| clearvision   | ^0.3.1    | Image processing toolkit                  |
 | ultralytics   | ^8.0.184  | YOLO model for object detection           |
 | opencv-python | ^4.8.0.76 | OpenCV bindings for Python                |
 | numpy         | >=1.24.0  | Numerical computing library               |
