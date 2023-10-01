@@ -7,8 +7,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 .vscode
+data/
 # C extensions
 *.so
+*.tar.gz
+train/
 *.mp4
 .python-version
 # Distribution / packaging

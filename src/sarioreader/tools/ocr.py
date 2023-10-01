@@ -12,8 +12,6 @@ class srOCR:
     def __init__(self):
         self.ocr_agent = OCR(
             scale_factor=2,
-            # recognizer_weights="/home/chmaikos/HUA/video-analysis-thesis/src/sarioreader/models/recognizer_svhn.h5",  # noqa: E501
-            # alphabet=string.digits,
         )
 
     def img_preprocess_sario(self, frame):
@@ -103,7 +101,8 @@ class srOCR:
             raw_sarionum = [
                 result["text"] for result in data.get("ocr_result", [])
             ]
-            return self._sanitize_sarionum(raw_sarionum)
+            # return self._sanitize_sarionum(raw_sarionum)
+            return raw_sarionum
         else:
             print("Could not find OCR data")
             return []

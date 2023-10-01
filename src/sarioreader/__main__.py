@@ -33,7 +33,7 @@ def main(video_path):
             roi = detector.extract_roi(frame, results)
 
             if roi.any():
-                roi = ocr.img_preprocess_sario(roi)
+                # roi = ocr.img_preprocess_sario(roi)
                 sarionum = ocr.extract_sarionum(roi)
                 timestamp = ocr.extract_timestamp(frame)
                 cv2.imshow("Debug", roi)

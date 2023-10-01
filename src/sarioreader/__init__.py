@@ -3,8 +3,8 @@ import os
 from importlib.metadata import PackageNotFoundError, version
 from logging.handlers import RotatingFileHandler
 
-from sarioreader.ocr import srOCR
-from sarioreader.sario import SarioDetector
+from sarioreader.tools.ocr import srOCR
+from sarioreader.tools.sario import SarioDetector
 
 # Create and configure custom logger
 logger = logging.getLogger("sarioreader")

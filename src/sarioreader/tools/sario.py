@@ -34,10 +34,10 @@ class SarioDetector:
                     )
                     # Make the ROI 2x bigger
                     height, width, _ = frame.shape
-                    start_x = max(0, start_x - (end_x - start_x) // 2)
-                    start_y = max(0, start_y - (end_y - start_y) // 2)
-                    end_x = min(width, end_x + (end_x - start_x) // 2)
-                    end_y = min(height, end_y + (end_y - start_y) // 2)
+                    start_x = max(0, start_x - (end_x - start_x) // 10)
+                    start_y = max(0, start_y - (end_y - start_y) // 10)
+                    end_x = min(width, end_x + (end_x - start_x) // 10)
+                    end_y = min(height, end_y + (end_y - start_y) // 10)
 
                     roi = frame[start_y:end_y, start_x:end_x]
         return roi
